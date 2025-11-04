@@ -16,6 +16,9 @@ namespace MyBird
         #region Unity Event Method
         private void Update()
         {
+            if(GameManager.IsDeath == true)
+                return;
+
             //그라운드 롤링 이동
             RollingMove();
         }
@@ -25,6 +28,7 @@ namespace MyBird
 
         void RollingMove()
         {
+
             transform.Translate(Vector3.left * Time.deltaTime * moveSpeed, Space.World);
            
             if (transform.localPosition.x <= -8.4f)     //자식 오브젝트는 localPosition

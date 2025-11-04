@@ -31,6 +31,11 @@ namespace MyBird
         //이동
         [SerializeField]
         private float moveSpeed = 5f;                   //이동 속도
+
+        //버드 대기 UI
+        public GameObject readyUI;
+        //게임 오버 UI
+        public GameObject gameOverUI;
         #endregion
 
         #region Unity Event Method
@@ -48,7 +53,6 @@ namespace MyBird
             //시작 여부 체크
             if (GameManager.IsStart == false)
             {
-                ReadyBird();
                 return;
             }
 
@@ -75,9 +79,45 @@ namespace MyBird
                 keyJump = false;
             }
         }
+
+        //충돌체크 - 매개변수로 부딫힌 충돌체를 입력 받는다
+        private void OnCollisionEnter2D(Collision2D collision)  //트리거가 아닌 충돌체
+        {
+            //충돌한 충돌체 체크
+            if(collision.gameObject.tag == "Pipe")
+            {
+                //Debug.Log("아야");
+                GameManager.IsDeath = true;
+                GameOver();
+            }
+            else if (collision.gameObject.tag == "Ground")
+            {
+                //Debug.Log("아이고");
+                GameManager.IsDeath = true;
+                GameOver();
+            }
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)     //트리거 충돌체 (통과)
+        {
+            //충돌한 충돌체 체크
+            if(collision.gameObject.tag == "Point")
+            {
+                GameManager.Score++;
+                //Debug.Log($"점수: {GameManager.Score}");
+            }
+
+        }
         #endregion
 
         #region Custom Method
+        //게임 오버 처리
+        void GameOver()
+        {
+            GameManager.IsDeath = true;
+            gameOverUI.SetActive(true);
+        }    
+
         //입력 처리
         void InputBird()
         {
@@ -88,8 +128,11 @@ namespace MyBird
                 keyJump = true;
             }
             */
+
+            if (GameManager.IsDeath)
+                return;
             
-            //스페이스 키 OR 마우스 좌클릭으로 입력받기 (or 누적)
+            //스페이스 키 OR 마우스 좌클릭으로 입력받기 (or을 누적)
             keyJump |= Input.GetKeyDown(KeyCode.Space); 
             keyJump |= Input.GetMouseButtonDown(0);
 
@@ -97,6 +140,9 @@ namespace MyBird
             if(GameManager.IsStart == false && keyJump == true)
             {
                 GameManager.IsStart = true;
+
+                //UI
+                readyUI.SetActive(false);
             }
         }
 
@@ -141,6 +187,8 @@ namespace MyBird
         //버드 이동
         void MoveBird()
         {
+            if (GameManager.IsDeath)
+                return;
             transform.Translate(Vector2.right * Time.deltaTime * moveSpeed, Space.World);
         }
         #endregion
