@@ -16,6 +16,8 @@ namespace MyBird
 
         //게임 스코어
         private static int score;
+
+        public static float spawnValue = 0f;
         #endregion
 
         #region Property
@@ -45,6 +47,19 @@ namespace MyBird
             IsStart = false;
             IsDeath = false;
             Score = 0;
+            spawnValue = 0f;
+        }
+
+        private void Update()
+        {
+#if UNITY_EDITOR
+            //유니티 에디터에서만 적용
+            //치팅 - 저장 데이터 삭제
+            if(Input.GetKeyDown(KeyCode.P))
+            {
+                PlayerPrefs.DeleteAll();
+            }
+#endif
         }
         #endregion
 

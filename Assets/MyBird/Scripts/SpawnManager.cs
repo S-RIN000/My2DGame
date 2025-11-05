@@ -23,6 +23,12 @@ namespace MyBird
         #endregion
 
         #region Unity Event Method
+        private void Start()
+        {
+            //초기화
+            spawnTimer = 1f;
+        }
+
         private void Update()
         {
             //대기중에 스폰 안하기
@@ -40,6 +46,7 @@ namespace MyBird
 
                 //타이머 초기화
                 countdown = 0f;
+                spawnTimer = 1f;
             }
         }
         #endregion
