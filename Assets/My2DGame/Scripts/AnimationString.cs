@@ -13,6 +13,12 @@ namespace My2DGame
 
         public static string IsGrounded = "IsGrounded";
 
-     
+        public static string JumpTrigger = "JumpTrigger";
+
+        public static string YVelocity = "YVelocity";
+
+        public static string AttackTrigger = "AttackTrigger";
+
+        public static string CannotMove = "CannotMove";
     }
 }

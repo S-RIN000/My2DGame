@@ -47,6 +47,7 @@ namespace My2DGame
             {
                 isGround = value;
                 animator.SetBool(AnimationString.IsGrounded, value);
+                
             }
         }
         public bool IsCelling
