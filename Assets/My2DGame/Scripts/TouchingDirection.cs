@@ -37,6 +37,7 @@ namespace My2DGame
         private bool isCelling;
         [SerializeField]
         private bool isWall;
+
         #endregion
 
         #region Property
@@ -70,6 +71,7 @@ namespace My2DGame
                 //animator.SetBool(AnimationString.IsGrounded, value);
             }
         }
+       
 
         //벽체크 할 방향
         private Vector2 wallCheckDirection => (this.transform.localScale.x > 0f) ? Vector2.right : Vector2.left;

@@ -13,7 +13,10 @@ namespace My2DGame
         private Rigidbody2D rd2D;
         private TouchingDirection touchingDirection;
         private Animator animator;
-        
+        private Damageable damageable;
+
+        //적감지
+        public DetectionZone detectionZone;
 
         //이동
         //이동 속도
@@ -24,11 +27,17 @@ namespace My2DGame
         //이동 가능한 방향 정의
         public enum WalkableDirection
         { 
-            Left, Right
+            Left,
+            Right
         }
         //현재 이동 방향
         private WalkableDirection walkDirection = WalkableDirection.Right;
 
+        //감속 Lerp 계수
+        [SerializeField] private float stopRate = 0.2f;
+
+        //적 감지 - 타겟이 있다
+        private bool hasTarget = false;
         #endregion
 
         #region Property
@@ -56,7 +65,33 @@ namespace My2DGame
                 walkDirection = value; 
             }
         }
+        //애니메이터의 파라미터 값 (CannotMove) 읽어오기 
+        public bool CannotMove
+        {
+            get
+            {
+                return animator.GetBool(AnimationString.CannotMove);
+            }
+        }
+        //애니메이터의 파라미터 값 (LockVelocity) 읽어오기 
+        public bool LockVelocity
+        {
+            get
+            {
+                return animator.GetBool(AnimationString.LockVelocity);
+            }
+        }
 
+        //적 감지
+        public bool HasTarget
+        { 
+            get { return hasTarget; }
+            set
+            {
+                hasTarget = value;
+                animator.SetBool(AnimationString.HasTarget, value);
+            }
+        }
         #endregion
 
         #region Unity Event Method
@@ -66,7 +101,16 @@ namespace My2DGame
             rd2D = this.GetComponent<Rigidbody2D>();
             touchingDirection = this.GetComponent<TouchingDirection>();
             animator = this.GetComponent<Animator>();
-            
+            damageable = this.GetComponent<Damageable>();
+
+
+            //이벤트 함수 등록
+            damageable.hitAction += OnHit;
+        }
+        private void Update()
+        {
+            //적 감지
+            HasTarget = detectionZone.detectiveColliders.Count > 0; //리스트의 카운트 갯수가 0보다 크면 타겟이 있는 것
         }
 
         private void FixedUpdate()
@@ -78,7 +122,16 @@ namespace My2DGame
             }
 
             //이동하기
-            rd2D.linearVelocity = new Vector2(directionVector.x * runSpeed, rd2D.linearVelocityY);
+            
+            if (CannotMove)
+            {
+                rd2D.linearVelocity = new Vector2(Mathf.Lerp(rd2D.linearVelocityX, 0f, stopRate), rd2D.linearVelocityY);
+            }
+            else
+            {
+                rd2D.linearVelocity = new Vector2(directionVector.x * runSpeed, rd2D.linearVelocityY);
+            }
+            
         }
         #endregion
 
@@ -99,6 +152,12 @@ namespace My2DGame
                 Debug.Log("Error Flip Direction");
             }
         }
+        //데미지 이벤트에 등록되는 함수
+        public void OnHit(float damage, Vector2 knockback)
+        {
+            rd2D.linearVelocity = new Vector2(knockback.x, rd2D.linearVelocityY + knockback.y);
+        }
+
         #endregion
     }
 }
