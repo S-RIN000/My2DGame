@@ -112,6 +112,8 @@ namespace My2DGame
             //데미지 효과 (knockback)
             //hitAction 이벤트에 등록된 함수 호출 
             hitAction?.Invoke(damage, knockback);
+            //데미지 텍스트 연출 효과
+            CharacterEvent.characterDamaged.Invoke(this.transform, damage);
         }
         #endregion
     }
