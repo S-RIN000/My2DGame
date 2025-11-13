@@ -213,11 +213,23 @@ namespace My2DGame
             
         }
 
+        //활 쏘기
+        public void OnBow(InputAction.CallbackContext context)
+        {
+            if(context.started && touchingDirection.IsGround)
+            {
+                //Debug.Log("붕");
+                animator.SetTrigger(AnimationString.BowAttackTrigger);
+            }
+        }
+
         //데미지 이벤트에 등록되는 함수
         public void OnHit(float damage, Vector2 knockback)
         {
             rd2D.linearVelocity = new Vector2(knockback.x, rd2D.linearVelocityY + knockback.y);
         }
+
+       
         #endregion
     }
 }

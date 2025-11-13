@@ -9,7 +9,7 @@ namespace My2DGame
     {
         #region Variables
         //참조
-        //접촏하는 충돌체
+        //접촉하는 충돌체
         private CapsuleCollider2D touchingCol;
         private Animator animator;
 
@@ -37,7 +37,7 @@ namespace My2DGame
         private bool isCelling;
         [SerializeField]
         private bool isWall;
-
+   
         #endregion
 
         #region Property
@@ -89,6 +89,7 @@ namespace My2DGame
             IsGround = (touchingCol.Cast(Vector2.down, contactFilter, groundHits, groundDistance) > 0); 
             IsCelling = (touchingCol.Cast(Vector2.up, contactFilter, cellingHits, cellingDistance) > 0);
             IsWall = (touchingCol.Cast(wallCheckDirection, contactFilter,wallHits,wallDistance) > 0);
+           
         }
         #endregion
     }

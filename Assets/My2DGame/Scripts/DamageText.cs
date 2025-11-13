@@ -4,7 +4,7 @@ using TMPro;
 namespace My2DGame
 {
     /// <summary>
-    /// 데미지 효과 : 캐릭터 머리 위에 텍스트 띄우기
+    /// 데미지 이펙트 효과 : 캐릭터 머리 위에 텍스트 띄우기
     /// 위로 이동하기, 이동하면서 페이드 아웃, 페이드 아웃이 끝나면 킬 (1s)
     /// </summary>
     public class DamageText : MonoBehaviour

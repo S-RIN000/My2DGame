@@ -19,6 +19,7 @@ namespace My2DGame
         public static string IsDeath = "IsDeath";
         public static string LockVelocity = "LockVelocity";
         public static string CoolDownTime = "CoolDownTime";
+        public static string BowAttackTrigger = "BowAttackTrigger";
 
     }
 }

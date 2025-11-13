@@ -10,5 +10,8 @@ namespace My2DGame
     {
         //캐릭터가 데미지를 입을 때 등록된 함수 호출하는 이벤트 함수 
         public static UnityAction<Transform, float> characterDamaged;
+
+        //캐릭터가 힐 얻을 때 등록된 함수 호출하는 이벤트 함수 
+        public static UnityAction<Transform, float> characterHeal;
     }
 }

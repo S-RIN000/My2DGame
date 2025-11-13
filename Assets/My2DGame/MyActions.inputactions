@@ -22,7 +22,7 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Jump",
@@ -31,12 +31,21 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Attack1",
                     "type": "Button",
                     "id": "b5df61eb-4ecb-41bf-b62e-0f54d83ff06e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Bow",
+                    "type": "Button",
+                    "id": "e2bb0eb1-58e6-4175-b340-7043d5b5f657",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -184,6 +193,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Attack1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1a4cd345-aef1-406e-afd4-96b28172bb63",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Bow",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
