@@ -15,19 +15,35 @@ namespace My2DGame
         //공격시 넉백 효과
         [SerializeField]
         private Vector2 knockback = Vector2.zero;
+
+        //공격 데미지 이펙트 프리팹
+        public GameObject damageEffectPrefab;
+        [SerializeField]
+        private Vector3 effectOffset = Vector3.zero;
         #endregion
 
         #region Unity Event Method
-        private void OnTriggerEnter2D(Collider2D collision)
+        protected virtual void OnTriggerEnter2D(Collider2D collision)
         {
             //Debug.Log($"적에게 {attackDamage} 데미지를 주었다");
             Damageable damageable = collision.GetComponent<Damageable>();
             if(damageable != null)
             {
                 //넉백 효과 방향 설정
-                Vector2 deliveredKnickback = this.transform.parent.localScale.x > 0f ? knockback : new Vector2(-knockback.x, knockback.y);
+                Transform directionTrans = this.transform.parent != null ? this.transform.parent : this.transform;
+
+                Vector2 deliveredKnickback = directionTrans.localScale.x > 0f ? knockback : new Vector2(-knockback.x, knockback.y);
 
                 damageable.TakeDamage(attackDamage, deliveredKnickback);
+
+                //데미지 이펙트 처리
+                if (damageEffectPrefab)
+                {
+                    Vector3 offset = directionTrans.localScale.x > 0f ? effectOffset : new Vector3(-effectOffset.x, effectOffset.y, effectOffset.z);
+
+                    GameObject effectGo = Instantiate(damageEffectPrefab, this.transform.position, Quaternion.identity);
+                    Destroy(effectGo,0.4f);
+                }
             }
         }
         #endregion

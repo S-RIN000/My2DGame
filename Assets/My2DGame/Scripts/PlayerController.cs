@@ -14,6 +14,9 @@ namespace My2DGame
         private Animator animator;
         private TouchingDirection touchingDirection;
         private Damageable damageable;
+        private TrailEffect trailEffect;
+
+        //private ProjectileLauncher projectileLauncher;
 
         //이동
         [SerializeField] private float walkSpeed = 3f;       //걷는 속도
@@ -130,6 +133,9 @@ namespace My2DGame
             animator = this.GetComponent<Animator>();
             touchingDirection = this.GetComponent <TouchingDirection>();
             damageable = this.GetComponent <Damageable>();
+            trailEffect = this.GetComponent <TrailEffect>();
+
+            //projectileLauncher = this.GetComponent<ProjectileLauncher>();
 
             //이벤트 함수 등록
             damageable.hitAction += OnHit;
@@ -151,9 +157,6 @@ namespace My2DGame
         //방향 전환
         void SetFacingDirection(Vector2 moveInput)
         {
-            if(CannotMove)
-                return;
-
             if(moveInput.x > 0f && isFacingRight == false)    //오른쪽으로 이동
             {
                 IsFacingRight = true;
@@ -168,10 +171,18 @@ namespace My2DGame
         public void OnMove(InputAction.CallbackContext context)
         {
             inputMove = context.ReadValue<Vector2>();
-            //Debug.Log(inputMove);
-            IsMove = inputMove != Vector2.zero;
-            //방향 전환
-            SetFacingDirection(inputMove);
+
+            if(damageable.IsDeath == false)
+            {
+                //Debug.Log(inputMove);
+                IsMove = inputMove != Vector2.zero;
+                //방향 전환
+                SetFacingDirection(inputMove);
+            }
+            else
+            {
+                IsMove = false;
+            }
         }
 
         //달리기 입력 처리
@@ -181,6 +192,11 @@ namespace My2DGame
             {
                 IsRun = true;
                 //Debug.Log("달리기");
+                //잔상 효과 시작
+                if (trailEffect != null)
+                {
+                    trailEffect.StartTrailEffect();
+                }
             }
             else if(context.canceled)   //버튼을 뗄 때
             {
@@ -198,6 +214,12 @@ namespace My2DGame
                 //Debug.Log("점프");
                 animator.SetTrigger(AnimationString.JumpTrigger);
                 rd2D.linearVelocity = new Vector2(rd2D.linearVelocity.x, jumpForce);
+
+                //잔상 효과 시작
+                if (trailEffect != null)
+                {
+                    trailEffect.StartTrailEffect();
+                }
             }
 
         }
@@ -220,6 +242,9 @@ namespace My2DGame
             {
                 //Debug.Log("붕");
                 animator.SetTrigger(AnimationString.BowAttackTrigger);
+
+                //발사체 발사
+                //projectileLauncher.FireProjectile(); ==> 애니메이션 이벤트로 딜레이 해결
             }
         }
 

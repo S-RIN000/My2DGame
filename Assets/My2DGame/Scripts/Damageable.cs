@@ -11,6 +11,7 @@ namespace My2DGame
         #region Variables
         //참조
         private Animator animator;
+        private Renderer renderer;
 
         [SerializeField]
         private float currentHealth;
@@ -33,6 +34,10 @@ namespace My2DGame
 
         //힐 할 때 호출되는 이벤트 함수
         public UnityAction<float> healAction;
+
+        //무적 모드 효과
+        public Material invincibleMaterial;     //무적모드 메테리얼
+        private Material originMaterial;        //오리지날 메테리얼
         #endregion
 
         #region Property
@@ -73,24 +78,35 @@ namespace My2DGame
         #region Unity Event Method
         private void Awake()
         {
+            //참조
             animator = this.GetComponent<Animator>();
+            renderer = this.GetComponent<Renderer>();
         }
 
         private void Start()
         {
             //초기화
             CurrentHealth = MaxHealth;
+            originMaterial = renderer.material;
         }
         private void Update()
         {
             //무적 타이머 - 무적 모드일 때만 돈다
             if (isInvincible)
             {
+                //죽음 체크
+                if(IsDeath)
+                    return;
+
                 countdown += Time.deltaTime;
                 if (countdown >= invincibleTimer)
                 {
-                    //타이머 구현
+                    //타이머 구현 - 무적 모드 해제
                     isInvincible = false;
+                    if(invincibleMaterial != null)
+                    {
+                        renderer.material = originMaterial;
+                    }
                     //타이머 초기화
                     countdown = 0f;
                 }
@@ -109,6 +125,11 @@ namespace My2DGame
             Debug.Log($"CurrentHealth : {CurrentHealth}");
 
             isInvincible = true;
+            //무적 모드 효과
+            if(invincibleMaterial != null)
+            {
+                renderer.material = invincibleMaterial;
+            }
 
             //애니메이션
             animator.SetTrigger(AnimationString.HitTrigger);

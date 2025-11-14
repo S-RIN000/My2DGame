@@ -91,6 +91,20 @@ MonoBehaviour:
   boolName: CannotMove
   enterValue: 1
   exitValue: 0
+--- !u!114 &-7546240880984287291
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5b03ce935c1ace49888fa69cd8f74d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dessolveMaterial: {fileID: 2100000, guid: 0e6b00aff559d6c4882d65bf674af483, type: 2}
+  delayTimer: 0.5
 --- !u!1102 &-7506645322242190247
 AnimatorState:
   serializedVersion: 6
@@ -104,6 +118,7 @@ AnimatorState:
   m_Transitions: []
   m_StateMachineBehaviours:
   - {fileID: -2420558082463243392}
+  - {fileID: -7546240880984287291}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
